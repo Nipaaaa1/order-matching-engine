@@ -17,6 +17,16 @@ public:
         break;
       }
 
+      if (book.isCancelled(buy.id)) {
+        book.popTopBuy();
+        break;
+      }
+
+      if (book.isCancelled(sell.id)) {
+        book.popTopSell();
+        break;
+      }
+
       int tradedQty = std::min(buy.quantity, sell.quantity);
 
       std::cout << "[TRADE] "

@@ -21,6 +21,22 @@ int main() {
     if (line == "EXIT")
       break;
 
+    if (line.rfind("CANCEL", 0) == 0) {
+      std::istringstream iss(line);
+      std::string cmd;
+      int id;
+
+      iss >> cmd >> id;
+
+      if (book.cancelOrder(id)) {
+        std::cout << "[CANCELLED] ID=" << id << "\n";
+      } else {
+        std::cout << "Order not found\n";
+      }
+
+      continue;
+    }
+
     std::istringstream iss(line);
 
     Order order;

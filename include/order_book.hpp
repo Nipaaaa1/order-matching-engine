@@ -2,6 +2,7 @@
 
 #include "order.hpp"
 #include <queue>
+#include <unordered_set>
 #include <vector>
 
 struct BuyCompare {
@@ -34,6 +35,15 @@ public:
     }
   }
 
+  bool cancelOrder(int id) {
+    cancelledOrders.insert(id);
+    return true;
+  }
+
+  bool isCancelled(int id) const {
+    return cancelledOrders.find(id) != cancelledOrders.end();
+  }
+
   bool hasBuyOrders() const { return !buyOrders.empty(); }
 
   bool hasSellOrders() const { return !sellOrders.empty(); }
@@ -49,4 +59,5 @@ public:
 private:
   std::priority_queue<Order, std::vector<Order>, BuyCompare> buyOrders;
   std::priority_queue<Order, std::vector<Order>, SellCompare> sellOrders;
+  std::unordered_set<int> cancelledOrders;
 };
