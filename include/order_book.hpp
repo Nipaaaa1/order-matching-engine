@@ -5,11 +5,23 @@
 #include <vector>
 
 struct BuyCompare {
-  bool operator()(const Order &a, const Order &b) { return a.price < b.price; }
+  bool operator()(const Order &a, const Order &b) {
+    if (a.price == b.price) {
+      return a.timestamp > b.timestamp;
+    }
+
+    return a.price < b.price;
+  }
 };
 
 struct SellCompare {
-  bool operator()(const Order &a, const Order &b) { return a.price > b.price; }
+  bool operator()(const Order &a, const Order &b) {
+    if (a.price == b.price) {
+      return a.timestamp > b.timestamp;
+    }
+
+    return a.price > b.price;
+  }
 };
 
 class OrderBook {
