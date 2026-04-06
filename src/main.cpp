@@ -1,16 +1,52 @@
 #include "matching_engine.hpp"
-#include "order_book.hpp"
+#include <iostream>
+#include <sstream>
+#include <string>
 
 int main() {
   OrderBook book;
   MatchingEngine engine;
 
-  book.addOrder({1, Side::Buy, 100, 10, 1});
-  book.addOrder({2, Side::Buy, 105, 5, 2});
-  book.addOrder({3, Side::Sell, 102, 7, 3});
-  book.addOrder({4, Side::Sell, 99, 3, 4});
+  std::string line;
+  int orderId = 1;
+  long timestamp = 1;
 
-  engine.process(book);
+  std::cout << "Simple Matching Engine (type EXIT to quit)\n";
+
+  while (true) {
+    std::cout << "> ";
+    std::getline(std::cin, line);
+
+    if (line == "EXIT")
+      break;
+
+    std::istringstream iss(line);
+
+    std::string sideStr;
+    double price;
+    int quantity;
+
+    if (!(iss >> sideStr >> price >> quantity)) {
+      std::cout << "Invalid input\n";
+      continue;
+    }
+
+    Side side;
+    if (sideStr == "BUY") {
+      side = Side::Buy;
+    } else if (sideStr == "SELL") {
+      side = Side::Sell;
+    } else {
+      std::cout << "Invalid side\n";
+      continue;
+    }
+
+    Order order{orderId++, side, price, quantity, timestamp++};
+
+    book.addOrder(order);
+
+    engine.process(book);
+  }
 
   return 0;
 }
