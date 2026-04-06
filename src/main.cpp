@@ -1,4 +1,5 @@
 #include "matching_engine.hpp"
+#include "parser.hpp"
 #include <iostream>
 #include <sstream>
 #include <string>
@@ -22,26 +23,12 @@ int main() {
 
     std::istringstream iss(line);
 
-    std::string sideStr;
-    double price;
-    int quantity;
+    Order order;
 
-    if (!(iss >> sideStr >> price >> quantity)) {
+    if (!parseInput(line, order, orderId++, timestamp++)) {
       std::cout << "Invalid input\n";
       continue;
     }
-
-    Side side;
-    if (sideStr == "BUY") {
-      side = Side::Buy;
-    } else if (sideStr == "SELL") {
-      side = Side::Sell;
-    } else {
-      std::cout << "Invalid side\n";
-      continue;
-    }
-
-    Order order{orderId++, side, price, quantity, timestamp++};
 
     book.addOrder(order);
 

@@ -19,8 +19,9 @@ public:
 
       int tradedQty = std::min(buy.quantity, sell.quantity);
 
-      std::cout << "Matched: BUY " << buy.price << " with SELL " << sell.price
-                << " qty " << tradedQty << "\n";
+      std::cout << "[TRADE] "
+                << "Price=" << sell.price << " Qty=" << tradedQty
+                << " (BuyID=" << buy.id << ", SellID=" << sell.id << ")\n";
 
       buy.quantity -= tradedQty;
       sell.quantity -= tradedQty;
